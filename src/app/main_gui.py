@@ -11,7 +11,7 @@ __author__ = "Sudarat Tokampang"
 import tkinter
 
 # make a variable to change color
-color ='red' # =assignment
+color ='green' # =assignment
 
 # made a python function to print "Hello World"
 # def - define
@@ -36,7 +36,7 @@ app = tkinter .Tk() #application a class ot tkinter.Tk
 app.geometry ("400x400")
 canvas = tkinter.Canvas(app, width=120, height=120)
 circle = canvas.create_oval(10, 10, 110, 110,
-                            fill= "green")
+                            fill= color )
 canvas.pack()
 
 # make a botton (tkiner class) and put it in the app
