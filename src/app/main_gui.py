@@ -9,6 +9,26 @@ __author__ = "Sudarat Tokampang"
 
 # standard libra
 import tkinter as tk
+import comm_mqtt
+
+
+class SensorUI(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.comm = comm_mqtt.MQTTConn()
+        status_frame = tk.Frame(self, relief=tk.RIDGE, borderwidth=5)
+        self.status_buttons = []
+        print("1: ", self.status_buttons)
+        for i in range(4):
+            print("i = ", i)
+            status_btn = StatusButton(status_frame)
+        status_frame.pack(side=tk.TOP)
+
+        # make a button (tkinter class) and put it in the app
+        # button takes 3 argument, app-where to put the button
+        # text - key word argument
+        tk.Button(self, text="Chang status",
+                  command=status_btn.toggle_color).pack(side=tk.TOP)
 
 
 class StatusButton:
@@ -28,7 +48,7 @@ class StatusButton:
         self.circle = self.canvas.create_oval(10, 10, 110, 110,
                                               fill=self.color)
 
-        self.canvas.pack()
+        self.canvas.pack(side=tk.LEFT)
 
     def toggle_color(self):
         """ Toggle the color between red and green """
@@ -38,24 +58,13 @@ class StatusButton:
             self.color = 'red'
         self.canvas.itemconfig(self.circle, fill=self.color)
 
-
-app = tk .Tk()  # application a class ot tkinter.Tk
-# geometry is a method of the tkinter.Tk class that
-# sets the size of the app window. It takes a
-# string as on argument
-app.geometry("400x400")
-status_btn = StatusButton(app)
-print(status_btn)
-status_btn2 = StatusButton(app)
-print(status_btn2)
-
-# make a button (tkinter class) and put it in the app
-# button takes 3 argument, app-where to put the button
-# text - key word argument
-tk.Button(app, text="Toggle Circle 1",
-          command=status_btn.toggle_color).pack()
-tk.Button(app, text="Toggle Circle 2",
-          command=status_btn2.toggle_color).pack()
-
-app.mainloop()  # mainloop is method of tkinter.Tk
-# methods are function of classes
+if __name__ == "__main__":
+    app = SensorUI()   # application a class ot tkinter.Tk
+    app2 = SensorUI()
+    app2.geometry("400x400")
+    # geometry is a method of the tkinter.Tk class that
+    # sets the size of the app window. It takes a
+    # string as on argument
+    app.geometry("400x400")
+    app.mainloop()  # mainloop is method of tkinter.Tk
+    # methods are function of classes
