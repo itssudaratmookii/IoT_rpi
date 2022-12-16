@@ -11,27 +11,34 @@ __author__ = "Sudarat Tokampang"
 import tkinter as tk
 import comm_mqtt
 
+NAMES = ["Kyle", "Tao", "Sudarat", "Chatpon"]
 
 class SensorUI(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self.comm = comm_mqtt.MQTTConn()
+        self.comm = comm_mqtt.MQTTConn(self)
         status_frame = tk.Frame(self, relief=tk.RIDGE, borderwidth=5)
         self.status_buttons = []
-        print("1: ", self.status_buttons)
         for i in range(4):
-            print("i = ", i)
-            status_btn = StatusButton(status_frame)
+            status_btn = StatusButton(status_frame, NAMES[i])
+            self.status_buttons.append(status_btn)
         status_frame.pack(side=tk.TOP)
 
         # make a button (tkinter class) and put it in the app
         # button takes 3 argument, app-where to put the button
         # text - key word argument
         tk.Button(self, text="Chang status",
-                  command=status_btn.toggle_color).pack(side=tk.TOP)
+                  command=self.button_click).pack(side=tk.TOP)
+    def button_click(self):
+        self.toggle_status("Sudarat")  #ดัชนี
+        self.comm.publish("Hello this is Sudarat")
+
+    def toggle_status(self, name):
+        index = NAMES .index(name)
+        self.status_buttons[index].toggle_color()
 
 
-class StatusButton:
+class StatusButton(tk.Frame):
     """ Display the status using a canvas
 
     Attributes:
@@ -41,14 +48,17 @@ class StatusButton:
 
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent, name):
+        tk.Frame.__init__(self, master=parent)
         # make a variable to change color
         self.color = 'red'  # =assignment
-        self.canvas = tk.Canvas(parent, width=120, height=120)
+        self.canvas = tk.Canvas(self, width=120, height=120)
         self.circle = self.canvas.create_oval(10, 10, 110, 110,
                                               fill=self.color)
 
-        self.canvas.pack(side=tk.LEFT)
+        self.canvas.pack(side=tk.TOP)
+        tk.Label(self, text=name, font=42).pack(side=tk.TOP)
+        self.pack(side=tk.LEFT)
 
     def toggle_color(self):
         """ Toggle the color between red and green """
@@ -60,11 +70,9 @@ class StatusButton:
 
 if __name__ == "__main__":
     app = SensorUI()   # application a class ot tkinter.Tk
-    app2 = SensorUI()
-    app2.geometry("400x400")
     # geometry is a method of the tkinter.Tk class that
     # sets the size of the app window. It takes a
     # string as on argument
-    app.geometry("400x400")
+    app.geometry("600x400")
     app.mainloop()  # mainloop is method of tkinter.Tk
     # methods are function of classes
