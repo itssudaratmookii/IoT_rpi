@@ -27,15 +27,25 @@ class SensorUI(tk.Tk):
         # make a button (tkinter class) and put it in the app
         # button takes 3 argument, app-where to put the button
         # text - key word argument
-        tk.Button(self, text="Chang status",
-                  command=self.button_click).pack(side=tk.TOP)
+        self.running = False
+        self.button = tk.Button(self, text="Turn On",
+                                command=self.button_click)
+        self.button.pack(side=tk.TOP)
     def button_click(self):
-        self.toggle_status("Sudarat")  #ดัชนี
-        self.comm.publish("Hello this is Sudarat")
+        if self.running:
+            self.running = False
+            msg = "Off"
+            self.button.config(text="Turn on")
+        else:
+            self.running = True
+            msg = "On"
+            self.button.config(text="Turn off")
+        self.change_status("Sudarat", self.running)  #ดัชนี
+        self.comm.publish(msg)
 
-    def toggle_status(self, name):
+    def change_status(self, name, _running):
         index = NAMES .index(name)
-        self.status_buttons[index].toggle_color()
+        self.status_buttons[index].toggle_color(_running)
 
 
 class StatusButton(tk.Frame):
@@ -60,11 +70,11 @@ class StatusButton(tk.Frame):
         tk.Label(self, text=name, font=42).pack(side=tk.TOP)
         self.pack(side=tk.LEFT)
 
-    def toggle_color(self):
+    def toggle_color(self, state):
         """ Toggle the color between red and green """
-        if self.color == 'red':
+        if state:
             self.color = 'green'
-        elif self.color == 'green':
+        else:
             self.color = 'red'
         self.canvas.itemconfig(self.circle, fill=self.color)
 
