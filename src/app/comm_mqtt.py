@@ -22,6 +22,13 @@ SUBSCRIBE_TOPIC = "Naresuan/+"
 
 
 class MQTTConn:
+    """
+    Use the paho library to connect to the HIVE MQ mqtt broker
+
+    Attributes
+        root(main_gui.SensorUI): root user interface app
+        client (mqtt.Client): paho client for mqtt communication
+    """
     def __init__(self, root: main_gui.SensorUI):
         self.root = root
         self.client = mqtt.Client()
@@ -32,6 +39,14 @@ class MQTTConn:
         self.client.loop_start()
 
     def publish(self, message):
+        """
+        Send a message to the HIVE MQ broker using the PUBLISH_TOPIC
+        Args:
+            message(str): massage to send
+
+        Returns:
+
+        """
         self.client.publish(PUBLIST_TOPIC, message)
 
     def on_connection(self, *args):
@@ -42,6 +57,14 @@ class MQTTConn:
 
 
     def on_message(self, client, user_data, msg: mqtt.MQTTMessage):
+        """
+        Callback when receiving message
+        Args:
+            client:
+            user_data:
+            msg(mqtt.MQTTMessage): message received
+
+        """
         print("got message: ", msg.payload)
         print("from topic", msg.topic)
         name = msg .topic .split('/')[-1]
@@ -55,9 +78,9 @@ class MQTTConn:
 
 
 if __name__ == '__main__':
-    client = MQTTConn()
+    test_client = MQTTConn(None)
     while True:
-        client.publish("hello_this is MOOK")
+        test_client.publish("hello_this is MOOK")
         time.sleep(10)
 
 
