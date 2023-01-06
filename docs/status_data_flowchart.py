@@ -11,4 +11,4 @@ __author__ = "Sudarat Tokampang"
 # installed libraries
 import schemdraw
 
-with
+with schemdraw .Drawing
