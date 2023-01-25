@@ -65,30 +65,6 @@ class Display(tk.Frame):
         self.canvas.draw()
 
 
-@dataclass
-class SensorData:
-    """
-    Data class to hold 1 sensor time series data
-
-    Attributes
-        time (list[datetime]): time stamps of when ten sensor read data
-        temperature (list[floots]): sensor data
-        display (Display): chid that will display the data of this class
-    """
-    time = []
-    temperature = []
-
-    def __init__(self, _parent):
-        self .display = Display(_parent)
-        self.display.pack()
-
-    def add_data(self):
-        self.time .append(datetime.now())
-        self.temperature.append(random.randrange(20, 35))
-        print(self.time)
-        print(self.temperature)
-        self.display.update_line(self.time, self.temperature)
-
 
 if __name__ == '__main__':
     parent = tk.Tk()  #main_gui
