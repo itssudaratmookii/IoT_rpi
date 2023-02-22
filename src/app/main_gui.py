@@ -10,6 +10,7 @@ __author__ = "Sudarat Tokampang"
 # standard libra
 import tkinter as tk
 import comm_mqtt
+import sensor_data
 
 NAMES = ["Kyle", "Tao", "Sudarat", "Chatpon"]
 
@@ -28,6 +29,8 @@ class SensorUI(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.comm = comm_mqtt.MQTTConn(self)
+
+        self.data = sensor_data.SensorData(self)
         status_frame = tk.Frame(self, relief=tk.RIDGE, borderwidth=5)
         self.status_buttons = []
         for i in range(4):
@@ -59,7 +62,7 @@ class SensorUI(tk.Tk):
             msg = "On"
             self.button.config(text="Turn off")
         self.change_status("Sudarat", self.running)  #ดัชนี
-        self.comm.publish(msg)
+        self.comm.publish(msg, is_data=False)
 
     def change_status(self, name, _running):
         """
@@ -111,6 +114,6 @@ if __name__ == "__main__":
     # geometry is a method of the tkinter.Tk class that
     # sets the size of the app window. It takes a
     # string as on argument
-    app.geometry("600x400")
+    app.geometry("600x1000")
     app.mainloop()  # mainloop is method of tkinter.Tk
     # methods are function of classes
