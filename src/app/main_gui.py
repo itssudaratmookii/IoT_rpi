@@ -28,9 +28,8 @@ class SensorUI(tk.Tk):
     """
     def __init__(self):
         tk.Tk.__init__(self)
+        self.data = sensor_data.SensorHubData(self)
         self.comm = comm_mqtt.MQTTConn(self)
-
-        self.data = sensor_data.SensorData(self)
         status_frame = tk.Frame(self, relief=tk.RIDGE, borderwidth=5)
         self.status_buttons = []
         for i in range(4):
@@ -46,6 +45,7 @@ class SensorUI(tk.Tk):
         self.button = tk.Button(self, text="Turn On",
                                 command=self.button_click)
         self.button.pack(side=tk.TOP)
+
     def button_click(self):
         """
         Toggle the stat of the sensor True -> False or False -> True,

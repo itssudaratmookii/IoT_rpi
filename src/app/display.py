@@ -33,18 +33,20 @@ class Display(tk.Frame):
         lines (list[matplotlib.lines]):
         canvas (FigureCanvasTkgg)
     """
+    canvas = None
+    lines = {}
+
     def __init__(self, _parent: tk.Tk):
         tk.Frame.__init__(self, master=_parent)
         self.figure = plt.Figure(figsize=(6, 4))
         self.axis = self.figure.add_subplot()
         self.axis.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
-        self.lines = self.axis.plot([], [])
         self.canvas = FigureCanvasTkAgg(self.figure, master=self)
-        print(self.lines[0].get_xydata())
         self.canvas.draw()
         self.canvas.get_tk_widget().pack()
 
-    def update_line(self, x_data, y_data):
+    def update_line(self, x_data, y_data: list,
+                    label: str):
         """
         Update the data to be display and re-drow the canvas
 
@@ -55,9 +57,16 @@ class Display(tk.Frame):
         Returns:
 
         """
-        self.lines[0].set_xdata(x_data)
-        self.lines[0].set_ydata(y_data)
-        print(self.lines[0].get_xydata())
+        if label not in self.lines:
+            print(f"add label: {label}")
+            self.lines[label], = self.axis.plot(x_data, y_data,
+                                                label=label)
+            self.axis.legend()
+            self.canvas.draw()
+            return
+
+        self.lines[label].set_xdata(x_data)
+        self.lines[label].set_ydata(y_data)
         now = x_data[-1]
         self.axis.set_xlim([now - timedelta(minutes=5),
                             now+timedelta(minutes=5)])

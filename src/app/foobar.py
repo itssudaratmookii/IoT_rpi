@@ -13,8 +13,8 @@ from datetime import datetime
 
 print(datetime .now().strftime('%Y-%m-%d %H:%M:%S'))
 
-data = {'datatime': '2023-02-08 10:48:32','device': 'device 2',
-        'temperature':30}
+data = {'datatime': '2023-02-08 10:48:32', 'device': 'device 2',
+        'temperature': 30}
 #{} - curly brackets [] - square brackets
 
 print(data)

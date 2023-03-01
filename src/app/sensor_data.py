@@ -14,6 +14,40 @@ import tkinter as tk
 
 import display
 
+class SensorHubData:
+    """
+    Parent class to hold different sensor data series
+    sensor data series are held in the attribute dictionary . sensors
+    with the keys of "{device}{data_type}" and values of SensorData, ie:
+    "{device 2 temperature": SensorData}
+
+    Attributes:
+         sensor (dict): hold a series of SensorData classs
+         display (Display): chila that will display the data of the class
+
+    """
+    sensors = {}
+
+    def __init__(self, _parent: tk.Tk):
+        self.display = display.Display(_parent)
+        self.display.pack()
+
+    def add_data(self, sensor, time, temp):
+        print(f"add data: {sensor}, {time}, {time}")
+        sensor_key = f"{sensor} temp"
+        print(sensor_key)
+        if sensor_key not in self.sensors:
+            print(f"add {sensor_key} to sensors")
+            self.sensors[sensor_key] = SensorData()
+        _sensor_data = self.sensors[sensor_key]
+        _sensor_data.add_data(time, temp)
+        # self.sensors[sensor_key].add_data(time, temp)
+
+        self.display.update_line(_sensor_data.time,
+                                 _sensor_data.temperature,
+                                 sensor)
+
+
 @dataclass
 class SensorData:
     """
@@ -27,20 +61,14 @@ class SensorData:
     time = []
     temperature = []
 
-    def __init__(self, _parent):
-        self .display = display.Display(_parent)
-        self.display.pack()
-
     def add_data(self, time: datetime, temp: float):
         """
         Append new received data from a sensor and add it to the existing data.
-
-
         """
+        print("ll")
         self.time.append(time)
         self.temperature.append(temp)
-        self.display.update_line(self.time, self.temperature)
-
+        print(self.time)
 
 
 

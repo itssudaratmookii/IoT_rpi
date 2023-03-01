@@ -23,6 +23,7 @@ class MQTTConn:
 
     Attributes
         root(main_gui.SensorUI): root user interface app
+        root.data(sensor_data.SensorHubData): master and class for all sensor
         client (mqtt.Client): paho client for mqtt communication
     """
     def __init__(self, root: 'main_gui.SensorUI'):
@@ -93,7 +94,9 @@ class MQTTConn:
         date_time = datetime.strptime(json_data["datetime"],
                                       "%Y-%m-%d %H:%M:%S")
 
-        self.root.data.add_data(date_time,
+        print(f"converted date_time: {date_time}")
+        self.root.data.add_data(json_data["device"],
+                                date_time,
                                 json_data["temperature"])
         return 0
 

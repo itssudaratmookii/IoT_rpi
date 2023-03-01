@@ -25,7 +25,7 @@ from src.app import sensor_data
 class TestCommToData(unittest.TestCase):
     def test_comm_msg_to_data(self):
         mock_root = mock.Mock()
-        mock_root.data = sensor_data.SensorData(None)
+        mock_root.data = sensor_data.SensorHubData(None)
         print(f"mock data: {mock_root.data}")
         print(f"mock add_data: {mock_root.data.add_data}")
         comm = comm_mqtt.MQTTConn(mock_root)
@@ -36,10 +36,14 @@ class TestCommToData(unittest.TestCase):
         now = datetime(2023, 2, 8, 10, 48, 32)
         print(f"return code: {return_code}")
         print(f"add_data: {comm.root.data.add_data}")
-        print(f"add_time: {mock_root.data.time}")
-        print(f"add_temperature: {mock_root.data.temperature}")
-        self.assertEqual([now], mock_root.data.time)
-        self.assertEqual([30], mock_root.data.temperature)
+        print(mock_root.data)
+        print(mock_root.data.sensors)
+
+        _sensor_data = mock_root.data.sensors['device 2 ']
+        print(f"add_time: {_sensor_data.time}")
+        print(f"add_temperature: {_sensor_data.temperature}")
+        self.assertEqual([now], mock_root.data.sensors['device 2 temp'].time)
+        self.assertEqual([30], mock_root.data.sensors['device 2 temp'].temperature)
 
 
 if __name__ == '__main__':

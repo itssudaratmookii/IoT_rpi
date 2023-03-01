@@ -35,7 +35,7 @@ class TestSensorUI(unittest.TestCase) :
             gui.button_click()
             gui.comm.publish.assert_called()
             gui.comm.publish: mock.MagicMock
-            gui.comm.publish.assert_called_with("On")
+            gui.comm.publish.assert_called_with("On", is_data=False)
 
 
 
