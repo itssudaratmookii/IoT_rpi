@@ -35,7 +35,7 @@ class MQTTConn:
         self.client.connect(HIVEMQTT_BROKER, HIVEMQTT_PORT)
         self.client.loop_start()
 
-    def publish(self, message, is_data=True):
+    def publish(self, message, is_data = True):
         """
         Send a message to the HIVE MQ broker using the PUBLISH_TOPIC
         Args:
@@ -90,6 +90,10 @@ class MQTTConn:
         print(f"json_data type: {type(json_data)}")
         if "datetime" not in json_data.keys():
             return 310
+        if "device" not in json_data.keys():
+            return 310
+        if "temperature" not in json_data.keys():
+            return 310
         # convert datetime from a string to a date time
         date_time = datetime.strptime(json_data["datetime"],
                                       "%Y-%m-%d %H:%M:%S")
@@ -115,7 +119,8 @@ class MQTTConn:
 if __name__ == '__main__':
     test_client = MQTTConn(None)
     while True:
-        test_client.publish({'datatime': '2023-02-08 10:48:32','device': 'device 2','temperature':30})
+        test_client.publish("{'datetime': '2023-02-08 10:48:32', 'device': 'device 2', 'temperature': 30}")
+        # test_client.publish("Off")
         time.sleep(10)
 
 

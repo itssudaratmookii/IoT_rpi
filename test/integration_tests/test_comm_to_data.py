@@ -17,6 +17,7 @@ from unittest import mock
 import paho.mqtt.client as mqtt
 
 sys.path.append(os.path.join("..", "..", "src", "app"))
+sys.path.append(os.path.join("..", "src", "app"))
 # local files
 from src.app import comm_mqtt
 from src.app import sensor_data
@@ -39,11 +40,11 @@ class TestCommToData(unittest.TestCase):
         print(mock_root.data)
         print(mock_root.data.sensors)
 
-        _sensor_data = mock_root.data.sensors['device 2 ']
+        _sensor_data = mock_root.data.sensors['device 2']
         print(f"add_time: {_sensor_data.time}")
         print(f"add_temperature: {_sensor_data.temperature}")
-        self.assertEqual([now], mock_root.data.sensors['device 2 temp'].time)
-        self.assertEqual([30], mock_root.data.sensors['device 2 temp'].temperature)
+        self.assertEqual([now], _sensor_data.time)
+        self.assertEqual([30], _sensor_data.temperature)
 
 
 if __name__ == '__main__':

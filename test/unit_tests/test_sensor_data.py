@@ -24,6 +24,13 @@ class TestSensorData(unittest.TestCase):
         """
         with mock.patch("sensor_data.display.Display") as mock_display:
             self.sensor_class = sensor_data.SensorHubData(None)
+            print(self.sensor_class.sensors)
+            print('====')
+            for _key in self.sensor_class.sensors:
+                _sensor_data = self.sensor_class.sensors[_key]
+                print(_sensor_data)
+                _sensor_data.temperature = []
+                _sensor_data.time = []
             self.sensor_class.temperature = []
             self.sensor_class.time = []
             self.mock_display = mock_display
@@ -35,14 +42,14 @@ class TestSensorData(unittest.TestCase):
         print(f"start: {sensor_class.sensors}")
         sensor_class.add_data("device 2", now, 5)
         print(f"middle: {sensor_class.sensors}")
-        self.assertTrue("device 2 temp" in sensor_class.sensors)
-        sensor = sensor_class.sensors["device 2 temp"]
+        self.assertTrue("device 2" in sensor_class.sensors)
+        sensor = sensor_class.sensors["device 2"]
 
         self.assertEqual([now], sensor.time)
         self.assertEqual([5], sensor.temperature)
         # add second data point
         now2 = datetime(2023, 1, 24, 10, 50, 12)
-        sensor_class.add_data("device 2 temp", now2, 10)
+        sensor_class.add_data("device 2", now2, 10)
         print(f"time: {sensor.time}")
         print(f"temp: {sensor.temperature}")
         self.assertEqual([now, now2], sensor.time)

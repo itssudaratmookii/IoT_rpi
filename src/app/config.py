@@ -11,5 +11,5 @@ HIVEMQTT_BROKER = "broker.hivemq.com"
 PUBLIST_DATA_TOPIC = "Naresuan/Sudarat/data"
 PUBLIST_STATUS_TOPIC = "Naresuan/Sudarat/status"
 SUBSCRIBE_TOPIC = "Naresuan/+/+"
-SENSOR_LIST = ['Sudarat']
+SENSOR_LIST = ['Sudarat', 'Tao', 'Kyle', 'Chatpon']
 

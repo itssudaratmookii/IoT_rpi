@@ -34,7 +34,7 @@ class SensorHubData:
 
     def add_data(self, sensor, time, temp):
         print(f"add data: {sensor}, {time}, {time}")
-        sensor_key = f"{sensor} temp"
+        sensor_key = f"{sensor}"
         print(sensor_key)
         if sensor_key not in self.sensors:
             print(f"add {sensor_key} to sensors")
@@ -58,8 +58,9 @@ class SensorData:
         temperature (list[floots]): sensor data
         display (Display): chid that will display the data of this class
     """
-    time = []
-    temperature = []
+    def __init__(self):
+        self.time = []
+        self.temperature = []
 
     def add_data(self, time: datetime, temp: float):
         """
